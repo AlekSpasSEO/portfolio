@@ -13,3 +13,30 @@ if (navigator.clipboard && window.isSecureContext) {
     }
   });
 }
+
+for (const button of document.querySelectorAll('.client-tour-toggle')) {
+  const tour = button.closest('.client-tour');
+  const image = tour.querySelector('.client-tour-image');
+  const still = image.getAttribute('src');
+  const animation = image.dataset.gif;
+
+  function stopTour() {
+    image.src = still;
+    button.textContent = 'Play GIF tour';
+  }
+
+  button.hidden = false;
+  button.addEventListener('click', () => {
+    if (image.getAttribute('src') === animation) {
+      stopTour();
+      return;
+    }
+
+    image.src = animation;
+    button.textContent = 'Stop tour';
+  });
+
+  tour.closest('details').addEventListener('toggle', (event) => {
+    if (!event.currentTarget.open) stopTour();
+  });
+}
